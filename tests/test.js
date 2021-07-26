@@ -1,4 +1,4 @@
-const { countMessageSegments, getMessageEncoding, getMessageNonGSM7Characters } = require('./text-message-utils.js')
+const { getMessageSegmentInformation } = require('../lib/text-message-utils.js')
 
 const UCS2data = `
 Hi Michael!
@@ -13,31 +13,31 @@ See you tomorrow!
 `
 
 test('Counts GSM-7 segments', () => {
-  const size = countMessageSegments(GSM7data)
+  const size = getMessageSegmentInformation(GSM7data).count
   expect(size).toBe(1);
 });
 
 test('Counts UCS-2 segments', () => {
-  const size = countMessageSegments(UCS2data)
+  const size = getMessageSegmentInformation(UCS2data).count
   expect(size).toBe(2);
 });
 
 test('Check GSM-7 encoding', () => {
-  const encoding = getMessageEncoding(GSM7data)
+  const encoding = getMessageSegmentInformation(GSM7data).encoding
   expect(encoding).toBe('GSM-7');
 });
 
 test('Check UCS-2 encoding', () => {
-  const encoding = getMessageEncoding(UCS2data)
+  const encoding = getMessageSegmentInformation(UCS2data).encoding
   expect(encoding).toBe('UCS-2');
 });
 
 test('Get UCS-2 characters from GSM-7 data', () => {
-  const nonGSM7Characters = getMessageNonGSM7Characters(GSM7data)
+  const nonGSM7Characters = getMessageSegmentInformation(GSM7data).nonGSM7Characters
   expect(nonGSM7Characters).toStrictEqual([]);
 });
 
 test('Get UCS-2 characters from UCS-2 data', () => {
-  const nonGSM7Characters = getMessageNonGSM7Characters(UCS2data)
+  const nonGSM7Characters = getMessageSegmentInformation(UCS2data).nonGSM7Characters
   expect(nonGSM7Characters).toStrictEqual(['🚀']);
 });

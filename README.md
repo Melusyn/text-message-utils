@@ -1,30 +1,51 @@
-https://npmjs.org/package/to-text-message-utils/
+# [Text Message Utils](https://npmjs.org/package/text-message-utils/)
 
-Get a Text Message's size depending on it's content. Get it's encoding and which characters are not GSM-7 compatible.
-Internally, we're using the very good Twilio message-segment-calculator tool (https://github.com/TwilioDevEd/message-segment-calculator) and Grapheme Splitter (https://github.com/orling/grapheme-splitter)
-The difference is this library has no interface and can be imported within your project.
+Get a Text Message's size depending on it's content.  
+Get it's encoding and which characters are not GSM-7 compatible.  
+Internally, we're using the following awesome resources:
+- Twilio's [message-segment-calculator tool](https://github.com/TwilioDevEd/message-segment-calculator) 
+- [Grapheme Splitter](https://github.com/orling/grapheme-splitter)
 
+## Install
+
+```sh
+npm install @setkeeper/text-message-utils
+```
+or
+```sh
+yarn add @setkeeper/text-message-utils
+```
+
+## Usage
 ```js
-import { countMessageSegments, getMessageEncoding, getMessageNonGSM7Characters } from 'text-message-utils'
+import { getMessageSegmentInformation } from 'text-message-utils'
 
-const data = `
+const dataUCS2 = `
 Hi Michael!
 Please be sure to be ready tomorrow morning 5am 🚀
 See you tomorrow!
 `
 
-const size = countMessageSegments(data)
-// returns: 2
+getMessageSegmentInformation(dataUCS2)
+// returns: { count: 2, encoding: 'UCS-2', nonGSM7Characters: ['🚀'] }
 
-const encoding = getMessageEncoding(data)
-// returns: 'GSM-7'
+const dataGSM7 = `
+Hi Michael!
+Please be sure to be ready tomorrow morning 5am
+See you tomorrow!
+`
 
-const nonGSM7Characters = getMessageNonGSM7Characters(data)
-// returns: ['🚀']
+getMessageSegmentInformation(dataGSM7)
+// returns: { count: 1, encoding: 'GSM-7', nonGSM7Characters: [] }
 
-const messageSegmentInformation = getMessageSegmentInformation(data)
-// returns: { count: 2, encoding: 'GSM-7', nonGSM7Characters: ['🚀'] }
+```
 
+
+## Publish a new version
+
+```sh
+npm run build
+npm publish --access public
 ```
 
 ## License

@@ -1,10 +1,12 @@
 {
-  "name": "text-message-utils",
+  "name": "@setkeeper/text-message-utils",
   "version": "1.0.0",
   "description": "Get a Text Message's size depending on it's content. Get it's encoding and which characters are not GSM-7 compatible.",
-  "main": "index.js",
+  "main": "./lib/text-message-utils.js",
+  "types": "./lib/text-message-utils.d.ts",
   "scripts": {
-    "test": "jest"
+    "test": "tsc; jest",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,12 @@
   },
   "homepage": "https://github.com/Melusyn/text-message-utils#readme",
   "devDependencies": {
-    "jest": "^27.0.6"
+    "@babel/preset-typescript": "7.14.5",
+    "@types/jest": "26.0.24",
+    "jest": "27.0.6",
+    "typescript": "4.3.5"
+  },
+  "dependencies": {
+    "grapheme-splitter": "^1.0.4"
   }
 }
