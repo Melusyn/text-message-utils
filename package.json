@@ -1,0 +1,30 @@
+{
+  "name": "text-message-utils",
+  "version": "1.0.0",
+  "description": "Get a Text Message's size depending on it's content. Get it's encoding and which characters are not GSM-7 compatible.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Melusyn/text-message-utils.git"
+  },
+  "keywords": [
+    "text message",
+    "segment",
+    "size",
+    "encoding",
+    "GSM-7",
+    "UCS-2"
+  ],
+  "author": "Hugo Cordier, SetKeeper <h.cordier@setkeeper.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Melusyn/text-message-utils/issues"
+  },
+  "homepage": "https://github.com/Melusyn/text-message-utils#readme",
+  "devDependencies": {
+    "jest": "^27.0.6"
+  }
+}
