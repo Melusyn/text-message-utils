@@ -315,25 +315,25 @@ class SegmentedMessage {
     this.encoding = encoding;
     this.splitter = graphemeSplitter;
 
-    let encodedChars = this.encodeChars(message);
-    if (encoding === "auto" && this.hasIncompatibleEncoding(encodedChars)) {
+    this.encodedChars = this.encodeChars(message);
+    if (encoding === "auto" && this.hasIncompatibleEncoding()) {
       this.charClass = UCS2EncodedChar;
-      encodedChars = this.encodeChars(message);
+      this.encodedChars = this.encodeChars(message);
     }
 
-    this.segments = this.buildSegments(encodedChars);
+    this.segments = this.buildSegments();
   }
 
-  buildSegments(encodedChars, useTwilioReservedBits) {
+  buildSegments(useTwilioReservedBits) {
     let segments = [];
     const hasTwilioReservedBits = (useTwilioReservedBits === true);
     let currentSegment = null;
 
-    for (const encodedChar of encodedChars) {
+    for (const encodedChar of this.encodedChars) {
       if (currentSegment === null || currentSegment.freeSizeInBits() < encodedChar.sizeInBits()) {
         
         if (currentSegment && hasTwilioReservedBits === false) {
-          return this.buildSegments(encodedChars, true);
+          return this.buildSegments(true);
         }
 
         currentSegment = new Segment(hasTwilioReservedBits);
@@ -367,13 +367,18 @@ class SegmentedMessage {
     }
   }
 
-  hasIncompatibleEncoding(encodedChars) {
-    for (const encodedChar of encodedChars) {
-      if (!encodedChar.codeUnits) {
-        return true;
+  getIncompatibleEncodingCharacters() {
+    const incompatibleEncodingCharacters = []
+    for (const encodedChar of this.encodedChars) {
+      if (!encodedChar.isGSM7) {
+        incompatibleEncodingCharacters.push(encodedChar.raw);
       }
     }
-    return false;
+    return incompatibleEncodingCharacters;
+  }
+
+  hasIncompatibleEncoding() {
+    return this.getIncompatibleEncodingCharacters().length > 0;
   }
 
   encodeChars(message) {
@@ -407,3 +412,5 @@ class SegmentedMessage {
     return size;
   }
 }
+
+exports.SegmentedMessage = SegmentedMessage
