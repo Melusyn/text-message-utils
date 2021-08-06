@@ -1,4 +1,4 @@
-# [Text Message Utils](https://npmjs.org/package/text-message-utils/)
+# [Text Message Utils](https://npmjs.org/package/@setkeeper/text-message-utils/)
 
 Get a Text Message's size depending on it's content.  
 Get it's encoding and which characters are not GSM-7 compatible.  
